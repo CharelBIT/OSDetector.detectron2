@@ -1,0 +1,23 @@
+MODEL:
+  META_ARCHITECTURE: 'YOLOv3'
+#  WEIGHTS: "detectron2://ImageNetPretrained/MSRA/R-50.pkl"
+  WEIGHTS: '/home/yons/PycharmProjects/Steel.detectorn2/training_dir/dectron2_yolo.pt'
+#  MASK_ON: True
+  YOLOV3:
+    NUM_CLASSES: 1
+    CFG_FILE: '/home/yons/PycharmProjects/Steel.detectorn2/yolov3/cfg/yolov3-spp.cfg'
+    ONNX_EXPORT: False
+DATASETS:
+  TRAIN: ("fcn_wheat_train",)
+  TEST: ("fcn_wheat_test",)
+INPUT:
+  MAX_SIZE_TRAIN: 640
+  MIN_SIZE_TRAIN: (320, 640)
+OUTPUT_DIR: 'training_dir/yolo_base'
+SOLVER:
+  IMS_PER_BATCH: 8
+  BASE_LR: 0.01  # Note that RetinaNet uses a different default learning rate
+  STEPS: (6000, 8000)
+  MAX_ITER: 9000
+  CHECKPOINT_PERIOD: 1000
+

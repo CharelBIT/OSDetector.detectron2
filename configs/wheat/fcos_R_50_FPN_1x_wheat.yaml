@@ -1,0 +1,26 @@
+_BASE_: "../Base-RetinaNet.yaml"
+MODEL:
+  META_ARCHITECTURE: 'FCOS'
+  WEIGHTS: "detectron2://ImageNetPretrained/MSRA/R-50.pkl"
+#  WEIGHTS: training_dir/fcos_R_50_FPN_1x_steel/model_0003999.pth
+#  MASK_ON: True
+  FCOS:
+    NUM_CLASSES: 4
+  RESNETS:
+    DEPTH: 50
+DATASETS:
+  TRAIN: ("fcn_wheat_train",)
+  TEST: ("fcn_wheat_test",)
+OUTPUT_DIR: 'training_dir/fcos_R_50_FPN_1x_wheat_baseline_test'
+SOLVER:
+  IMS_PER_BATCH: 8
+  BASE_LR: 0.01  # Note that RetinaNet uses a different default learning rate
+  STEPS: (6000, 8000)
+  MAX_ITER: 9000
+  CHECKPOINT_PERIOD: 1000
+INPUT:
+  MIN_SIZE_TRAIN: (1024,)
+  MAX_SIZE_TRAIN: 1024
+  MIN_SIZE_TEST: 1024
+  MAX_SIZE_TEST: 1024
+

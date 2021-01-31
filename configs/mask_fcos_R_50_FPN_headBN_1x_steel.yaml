@@ -1,0 +1,32 @@
+_BASE_: "Base-RetinaNet.yaml"
+MODEL:
+  META_ARCHITECTURE: 'FCOS'
+  WEIGHTS: "/gruntdata/data/R-50.pkl"
+#  WEIGHTS: 'training_dir/fcos_R_50_FPN_1x_steel_fp16/model_0003999.pth'
+  MASK_ON: True
+  ROI_HEADS:
+    IN_FEATURES: ["p3", "p4", "p5"]
+    PROPOSAL_APPEND_GT: True
+  ROI_MASK_HEAD:
+    NAME: "MaskRCNNConvUpsampleHead"
+    NUM_CONV: 4
+    POOLER_RESOLUTION: 14
+  FCOS:
+    NUM_CLASSES: 4
+    TO_ONNX: True
+    BN_TYPE: "BN"
+  RESNETS:
+    DEPTH: 50
+DATASETS:
+  TRAIN: ("coco_steel_train",)
+#  TEST: ("coco_steel_test",)
+  TEST: ("coco_steel_test",)
+OUTPUT_DIR: 'training_dir/mask_fcos_R_50_FPN_headBN_1x_coco_steel_fp16'
+SOLVER:
+  IMS_PER_BATCH: 32
+  BASE_LR: 0.001  # Note that RetinaNet uses a different default learning rate
+  STEPS: (60000, 80000)
+  MAX_ITER: 90000
+  CHECKPOINT_PERIOD: 1000
+  FP16:
+    ENABLED: False
